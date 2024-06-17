@@ -1,4 +1,5 @@
 export default {
+    collectCoverageFrom: ['src/**/*.tsx','!src/main.tsx'],
     testEnvironment: "jsdom",
     transform: {
       "^.+\\.tsx?$": "ts-jest",

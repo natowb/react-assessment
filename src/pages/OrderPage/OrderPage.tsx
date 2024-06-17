@@ -3,6 +3,9 @@ import Card from "../../components/Card/Card";
 import { FieldError, SubmitHandler, UseFormRegisterReturn, useForm } from "react-hook-form";
 
 import "./OrderPage.css";
+import { AppDispatch } from "../../store";
+import { useDispatch } from "react-redux";
+import { addOrder } from "../../store/orders/orderSlice";
 
 type OrderFormFields = {
     firstName: string;
@@ -12,22 +15,16 @@ type OrderFormFields = {
 }
 
 
-
-
-
 export default function OrderPage() {
 
     const { handleSubmit, register, formState: { errors } } = useForm<OrderFormFields>();
-
+    const dispatch: AppDispatch = useDispatch();
     const navigate = useNavigate();
 
+    // This is only called when all validate is completed
     const onSubmit: SubmitHandler<OrderFormFields> = (data) => {
-        console.log(data);
-        // TODO
-        // Dispatch order to store.
-
+        dispatch(addOrder(data));
         navigate('/');
-
     }
 
     const validateStringLength = (value: string, maxLength: number) => {
@@ -93,7 +90,6 @@ export default function OrderPage() {
                     placeholder="Quantity"
                     error={errors["quantity"]}
                     register={register("quantity", {
-                        required: "Must be a number between 1 and 20",
                         valueAsNumber: true,
                         validate: (value) => validateNumberRange(value, 1, 20),
                     })}
@@ -119,7 +115,7 @@ function OrderFormField({ register, type, placeholder, error }: OrderFormFieldPr
     return (
         <div className="input-container">
             <input {...register} type={type} placeholder={placeholder} />
-            {error && <div className="error-message">{error.message}</div>}
+            {error && <p className="error-message">{error.message}</p>}
         </div>
     )
 }

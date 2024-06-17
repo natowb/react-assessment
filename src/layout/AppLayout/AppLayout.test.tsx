@@ -56,17 +56,23 @@ describe('AppLayout', () => {
                                 lastName: "Doe",
                                 description: "Bulk order",
                                 quantity: 5,
+                            },
+                            {
+                                lastName: "LastNameOnly",
+                                description: "Bulk order",
+                                quantity: 5,
                             }
                         ]
                     }
                 }
             })
 
-            // If Landing Page is loaded with orders we expect this to be hidden
+        // If Landing Page is loaded with orders we expect this to be hidden
         expect(screen.queryByText("No orders have been placed so far")).toBeNull();
 
         // If Landing Page is loaded with orders we should see them
         expect(screen.getByText(/John Doe/i)).toBeInTheDocument();
+        expect(screen.getByText(/LastNameOnly/i)).toBeInTheDocument();
 
 
 
@@ -95,7 +101,7 @@ describe('AppLayout', () => {
                 }
             })
 
-            // If Landing Page is loaded with orders we expect this to be hidden
+        // If Landing Page is loaded with orders we expect this to be hidden
         expect(screen.queryByText("No orders have been placed so far")).toBeNull();
 
         // If Landing Page is loaded with orders we should see them
@@ -111,6 +117,33 @@ describe('AppLayout', () => {
 
         expect(screen.getByText("No orders have been placed so far")).toBeInTheDocument();
         expect(screen.queryByText(/John Doe/i)).toBeNull();
+    });
+
+    test('adds order correctly', async () => {
+
+        const user = userEvent.setup();
+
+        renderWithStore(
+            <MemoryRouter initialEntries={["/new"]} >
+                <AppLayout />
+            </MemoryRouter>
+        )
+
+        // Enter data into order form
+        await user.type(screen.getByPlaceholderText("John"), "John");
+        await user.type(screen.getByPlaceholderText("Doe"), "Doe");
+        await user.type(screen.getByPlaceholderText("Order Description"), "Bulk Order");
+        await user.type(screen.getByPlaceholderText("Quantity"), "5");
+
+
+       // Click on Submit button 
+        await user.click(screen.getByRole("button", { name: "Order" }));
+
+        // If Landing Page is loaded with orders we expect this to be hidden
+        expect(screen.queryByText("No orders have been placed so far")).toBeNull();
+
+        // If Landing Page is loaded with orders we should see them
+        expect(screen.getByText(/John Doe/i)).toBeInTheDocument();
     });
 
 });
