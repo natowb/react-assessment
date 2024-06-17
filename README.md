@@ -11,3 +11,14 @@
 - uses Jest and RTL as the testing framework
 - uses React Redux for testing
 
+
+## Running
+```sh
+
+npm i # to install node_modules
+npm dev # to run in development mode
+npm test # to run test cases
+npm test:coverage # to run test case coverage
+npm build # to build project
+npm preview # to run built project (requires npm build)\
+```
