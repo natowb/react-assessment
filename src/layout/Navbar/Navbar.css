@@ -3,13 +3,6 @@ nav {
     width: 100%;
 }
 
-.dropdown-button {
-    padding: 10px;
-    border: none;
-    cursor: pointer;
-    font-size: 16px;
-}
-
 .dropdown-menu {
     display: flex;
     flex-direction: column;

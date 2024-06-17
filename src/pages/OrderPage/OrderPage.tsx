@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import Card from "../../components/Card/Card";
 import { FieldError, SubmitHandler, UseFormRegisterReturn, useForm } from "react-hook-form";
 
+import "./OrderPage.css";
 
 type OrderFormFields = {
     firstName: string;
@@ -97,7 +98,7 @@ export default function OrderPage() {
                         validate: (value) => validateNumberRange(value, 1, 20),
                     })}
                 />
-                <button type="submit">Order</button>
+                <button className="btn" type="submit">Order</button>
             </form>
         </Card>
     </>
@@ -116,9 +117,9 @@ type OrderFormFieldProps = {
 
 function OrderFormField({ register, type, placeholder, error }: OrderFormFieldProps) {
     return (
-        <div>
+        <div className="input-container">
             <input {...register} type={type} placeholder={placeholder} />
-            {error && <div>{error.message}</div>}
+            {error && <div className="error-message">{error.message}</div>}
         </div>
     )
 }

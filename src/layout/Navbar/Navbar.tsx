@@ -13,7 +13,7 @@ export default function Navbar() {
     return (
         <nav>
             <div className="dropdown">
-                <button onClick={toggleMenu} className="dropdown-button">
+                <button onClick={toggleMenu} className="btn">
                     Menu
                 </button>
                 {isOpen && (
