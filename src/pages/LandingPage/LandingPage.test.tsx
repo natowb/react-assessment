@@ -8,5 +8,4 @@ describe('LandingPage', () => {
         renderWithStore(<LandingPage />)
         expect(screen.getByRole('heading', { name: "Order(s)" })).toBeInTheDocument();
     })
-
 });

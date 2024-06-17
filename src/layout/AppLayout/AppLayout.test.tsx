@@ -15,8 +15,6 @@ describe('AppLayout', () => {
         // when the App initially runs we expect to see the LandingPage and note the OrderPage when at '/'
         expect(screen.getByRole('heading', { name: "Order(s)" })).toBeInTheDocument();
         expect(screen.queryByRole('heading', { name: "Place an Order" })).toBeNull();
-
-
     })
 
 
@@ -42,5 +40,77 @@ describe('AppLayout', () => {
         expect(screen.queryByRole('heading', { name: "Order(s)" })).toBeNull();
         expect(screen.getByRole('heading', { name: "Place an Order" })).toBeInTheDocument();
     })
+
+
+    test('renders orders correctly', async () => {
+        renderWithStore(
+            <MemoryRouter initialEntries={["/"]} >
+                <AppLayout />
+            </MemoryRouter>
+            , {
+                preloadedState: {
+                    order: {
+                        orders: [
+                            {
+                                firstName: "John",
+                                lastName: "Doe",
+                                description: "Bulk order",
+                                quantity: 5,
+                            }
+                        ]
+                    }
+                }
+            })
+
+            // If Landing Page is loaded with orders we expect this to be hidden
+        expect(screen.queryByText("No orders have been placed so far")).toBeNull();
+
+        // If Landing Page is loaded with orders we should see them
+        expect(screen.getByText(/John Doe/i)).toBeInTheDocument();
+
+
+
+    });
+
+    test('deletes order correctly', async () => {
+
+        const user = userEvent.setup();
+
+        renderWithStore(
+            <MemoryRouter initialEntries={["/"]} >
+                <AppLayout />
+            </MemoryRouter>
+            , {
+                preloadedState: {
+                    order: {
+                        orders: [
+                            {
+                                firstName: "John",
+                                lastName: "Doe",
+                                description: "Bulk order",
+                                quantity: 5,
+                            }
+                        ]
+                    }
+                }
+            })
+
+            // If Landing Page is loaded with orders we expect this to be hidden
+        expect(screen.queryByText("No orders have been placed so far")).toBeNull();
+
+        // If Landing Page is loaded with orders we should see them
+        expect(screen.getByText(/John Doe/i)).toBeInTheDocument();
+
+
+        const deleteButton = screen.getByText("Delete");
+
+        expect(deleteButton).toBeInTheDocument();
+
+        await user.click(deleteButton);
+
+
+        expect(screen.getByText("No orders have been placed so far")).toBeInTheDocument();
+        expect(screen.queryByText(/John Doe/i)).toBeNull();
+    });
 
 });
