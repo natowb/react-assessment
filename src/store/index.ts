@@ -1,14 +1,23 @@
-import { configureStore } from "@reduxjs/toolkit";
+import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import orderReducer from "./orders/orderSlice";
 
-export const store = configureStore({
-    reducer: {
-        order: orderReducer
-    }
+const appReducer = combineReducers({
+    order: orderReducer,
 })
 
-// export the state type so we can access it in our application
-export type AppState = ReturnType<typeof store.getState>;
+
+export const setupStore = (preloadedState?: Partial<AppState>) => {
+    return configureStore({
+        reducer: appReducer,
+        preloadedState,
+    })
+}
+
+export const store = setupStore();
+
+// export the state types so we can access it in our application
+export type AppState = ReturnType<typeof appReducer>;
+export type AppStore = ReturnType<typeof setupStore>;
 
 // export the type of our store dispatch so we can have type checking.
 export type AppDispatch = typeof store.dispatch;

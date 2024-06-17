@@ -1,11 +1,12 @@
-import { render, screen } from "@testing-library/react";
+import { screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import AppLayout from "./AppLayout";
 import userEvent from "@testing-library/user-event";
+import { renderWithStore } from "../../utils/testUtils";
 
 describe('AppLayout', () => {
     test('renders correctly', () => {
-        render(
+        renderWithStore(
             <MemoryRouter initialEntries={["/"]}>
                 <AppLayout />
             </MemoryRouter>
@@ -22,7 +23,7 @@ describe('AppLayout', () => {
     test('Navbar correctly routes to different page', async () => {
 
         const user = userEvent.setup();
-        render(
+        renderWithStore(
             <MemoryRouter initialEntries={["/"]}>
                 <AppLayout />
             </MemoryRouter>
