@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import Card from "../../components/Card/Card";
-import { FieldError, RegisterOptions, SubmitHandler, UseFormRegister, UseFormRegisterReturn, Validate, useForm } from "react-hook-form";
+import { FieldError, SubmitHandler, UseFormRegisterReturn, useForm } from "react-hook-form";
 
 
 type OrderFormFields = {
