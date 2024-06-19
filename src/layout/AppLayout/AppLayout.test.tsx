@@ -54,6 +54,7 @@ describe('AppLayout', () => {
                     order: {
                         orders: [
                             {
+                                id: "order1",
                                 firstName: "John",
                                 lastName: "Doe",
                                 description: "Bulk order",
@@ -69,6 +70,7 @@ describe('AppLayout', () => {
 
         // If Landing Page is loaded with orders we should see them
         expect(screen.getByText(/John Doe/i)).toBeInTheDocument();
+
 
 
         const deleteButton = screen.getByText("Delete");

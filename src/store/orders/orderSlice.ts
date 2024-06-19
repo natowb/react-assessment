@@ -7,7 +7,7 @@ export type AddOrderAction = {
 }
 
 export type RemoveOrderAction = {
-    payload: number;
+    payload: string;
     type: string;
 }
 
@@ -25,18 +25,19 @@ const orderSlice = createSlice({
     reducers: {
         addOrder: (state, action: AddOrderAction) => {
             const newOrders = [...state.orders];
+
             newOrders.push(action.payload);
             state.orders = newOrders;
         },
         removeOrder: (state, action: RemoveOrderAction) => {
-
-            // invalid index was provided
-            if (action.payload >= state.orders.length) {
+            const orderIndex = state.orders.findIndex((o) => o.id === action.payload);
+            // if order with given id can't be found return
+            if (orderIndex === -1) {
                 return;
             }
 
             const newOrders = [...state.orders];
-            newOrders.splice(action.payload, 1);
+            newOrders.splice(orderIndex, 1);
             state.orders = newOrders;
         }
     }

@@ -22,12 +22,14 @@ describe('LandingPage', () => {
                     order: {
                         orders: [
                             {
+                                id: "order1",
                                 firstName: "John",
                                 lastName: "Doe",
                                 description: "Bulk order",
                                 quantity: 5,
                             },
                             {
+                                id: "order2",
                                 lastName: "LastNameOnly",
                                 description: "Bulk order",
                                 quantity: 5,

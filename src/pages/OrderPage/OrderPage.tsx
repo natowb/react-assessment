@@ -1,11 +1,13 @@
 import { useNavigate } from "react-router-dom";
-import Card from "../../components/Card/Card";
+import { v4 as uuidv4 } from 'uuid';
+import { useDispatch } from "react-redux";
 import { FieldError, SubmitHandler, UseFormRegisterReturn, useForm } from "react-hook-form";
+import Card from "../../components/Card/Card";
+import { AppDispatch } from "../../store";
+import { addOrder } from "../../store/orders/orderSlice";
 
 import "./OrderPage.css";
-import { AppDispatch } from "../../store";
-import { useDispatch } from "react-redux";
-import { addOrder } from "../../store/orders/orderSlice";
+
 
 type OrderFormFields = {
     firstName: string;
@@ -23,7 +25,11 @@ export default function OrderPage() {
 
     // This is only called when all validate is completed
     const onSubmit: SubmitHandler<OrderFormFields> = (data) => {
-        dispatch(addOrder(data));
+        const orderId = uuidv4();
+        dispatch(addOrder({
+            id: orderId,
+            ...data,
+        }));
         navigate('/');
     }
 

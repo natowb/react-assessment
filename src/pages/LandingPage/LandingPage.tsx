@@ -8,8 +8,8 @@ export default function LandingPage() {
     const orders = useSelector((state: AppState) => state.order.orders);
     const dispatch: AppDispatch = useDispatch();
 
-    const deleteOrder = (orderIndex: number) => {
-        dispatch(removeOrder(orderIndex));
+    const deleteOrder = (orderId: string) => {
+        dispatch(removeOrder(orderId));
     }
 
     return (
@@ -24,15 +24,21 @@ export default function LandingPage() {
                     )
                 }
 
+                {/*
+                Using index can cause problems if the orders array was being dynamicly edited, however since
+                redux state should be immutable and is treated as such when an order is removed the entire array is reset
+                if there was a real database would use a unique key from that as the key.
+                */}
+
                 <ul className="order-list">
-                    {orders.map((order, index) => (
-                        <li key={index} className="order-item">
+                    {orders.map((order) => (
+                        <li key={order.id} className="order-item">
                             <p>Name: {order.firstName ? `${order.firstName} ${order.lastName}` : order.lastName}</p>
                             <p>Description: {order.description}</p>
                             <p>Quantity: {order.quantity}</p>
                             <button
                                 className="btn"
-                                onClick={() => deleteOrder(index)}>
+                                onClick={() => deleteOrder(order.id)}>
                                 Delete
                             </button>
                         </li>
