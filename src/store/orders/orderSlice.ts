@@ -42,7 +42,7 @@ const orderSlice = createSlice({
     }
 });
 
-// by defining the reducers above '@reduxjs/toolkit' will create actions for us.
+// by defining the reducers above '@reduxjs/toolkit' will create thunk functions for us.
 export const { addOrder, removeOrder } = orderSlice.actions;
 
 // by defining the slice above '@reduxjs/toolkit' will create reducers for us.

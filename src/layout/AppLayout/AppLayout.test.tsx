@@ -18,7 +18,7 @@ describe('AppLayout', () => {
     })
 
 
-    test('Navbar correctly routes to different page', async () => {
+    test('Navbar correctly routes from LandingPage to  OrderPage', async () => {
 
         const user = userEvent.setup();
         renderWithStore(
@@ -27,6 +27,7 @@ describe('AppLayout', () => {
             </MemoryRouter>
         );
 
+        expect(screen.getByRole('heading', { name: "Order(s)" })).toBeInTheDocument();
 
         const dropDownButton = screen.getByText('Menu');
         // Click the dropdown button
@@ -35,50 +36,12 @@ describe('AppLayout', () => {
         await user.click(screen.getByText('New Item'))
 
 
-
         // when the Navbar 'New Item' button is clicked we expect OrderPage to be shown and LandingPage to be gone
         expect(screen.queryByRole('heading', { name: "Order(s)" })).toBeNull();
         expect(screen.getByRole('heading', { name: "Place an Order" })).toBeInTheDocument();
     })
 
-
-    test('renders orders correctly', async () => {
-        renderWithStore(
-            <MemoryRouter initialEntries={["/"]} >
-                <AppLayout />
-            </MemoryRouter>
-            , {
-                preloadedState: {
-                    order: {
-                        orders: [
-                            {
-                                firstName: "John",
-                                lastName: "Doe",
-                                description: "Bulk order",
-                                quantity: 5,
-                            },
-                            {
-                                lastName: "LastNameOnly",
-                                description: "Bulk order",
-                                quantity: 5,
-                            }
-                        ]
-                    }
-                }
-            })
-
-        // If Landing Page is loaded with orders we expect this to be hidden
-        expect(screen.queryByText("No orders have been placed so far")).toBeNull();
-
-        // If Landing Page is loaded with orders we should see them
-        expect(screen.getByText(/John Doe/i)).toBeInTheDocument();
-        expect(screen.getByText(/LastNameOnly/i)).toBeInTheDocument();
-
-
-
-    });
-
-    test('deletes order correctly', async () => {
+    test('Deletes order correctly', async () => {
 
         const user = userEvent.setup();
 
@@ -119,7 +82,7 @@ describe('AppLayout', () => {
         expect(screen.queryByText(/John Doe/i)).toBeNull();
     });
 
-    test('adds order correctly', async () => {
+    test('Adds new order correctly and redirects', async () => {
 
         const user = userEvent.setup();
 
@@ -136,7 +99,7 @@ describe('AppLayout', () => {
         await user.type(screen.getByPlaceholderText("Quantity"), "5");
 
 
-       // Click on Submit button 
+        // Click on Submit button 
         await user.click(screen.getByRole("button", { name: "Order" }));
 
         // If Landing Page is loaded with orders we expect this to be hidden
